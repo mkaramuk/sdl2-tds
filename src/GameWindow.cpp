@@ -20,14 +20,28 @@ GameWindow::GameWindow()
 							  400, 400, 0);
 	screenSurface = SDL_GetWindowSurface(window);
 	renderer = SDL_GetRenderer(window);
-	/* SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF)); */
+	this->gameObjects = new std::vector<GameObject *>();
+}
+
+void GameWindow::AddGameObject(GameObject *obj)
+{
+	this->gameObjects->push_back(obj);
+}
+
+GameObject *GameWindow::FindObjectWithName(string name)
+{
+	for (size_t i = 0; i < this->gameObjects->size(); i++)
+		if (*this->gameObjects->at(i)->name == name)
+			return (this->gameObjects->at(i));
+	return (NULL);
 }
 
 void GameWindow::EventLoop()
 {
-	SDL_Event	e;
-	bool		exit = false;
-	
+	SDL_Event e;
+	bool exit = false;
+	GameObject *player = this->FindObjectWithName("player");
+
 	while (!exit)
 	{
 		while (SDL_PollEvent(&e) != 0)
@@ -35,38 +49,23 @@ void GameWindow::EventLoop()
 			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			else if (e.key.keysym.sym == SDLK_d)
-			{
-				if (gameObject)
-					gameObject->SetPosition(gameObject->pos.x + 10, gameObject->pos.y);
-			}
+				player->SetPosition(player->pos.x + 10, player->pos.y);
 			else if (e.key.keysym.sym == SDLK_a)
-			{
-				if (gameObject)
-					gameObject->SetPosition(gameObject->pos.x - 10, gameObject->pos.y);
-			}
+				player->SetPosition(player->pos.x - 10, player->pos.y);
 			else if (e.key.keysym.sym == SDLK_s)
-			{
-				if (gameObject)
-					gameObject->SetPosition(gameObject->pos.x, gameObject->pos.y + 10);
-			}
-			
+				player->SetPosition(player->pos.x, player->pos.y + 10);
 			else if (e.key.keysym.sym == SDLK_w)
-			{
-				if (gameObject)
-					gameObject->SetPosition(gameObject->pos.x, gameObject->pos.y - 10);
-			}
+				player->SetPosition(player->pos.x, player->pos.y - 10);
 		}
 		Render();
-		// SDL_UpdateWindowSurface(window);
 	}
-	
 }
 
 void GameWindow::Render()
 {
 	SDL_RenderClear(renderer);
-	if (gameObject)
-		gameObject->Render();
+	for (size_t i = 0; i < this->gameObjects->size(); i++)
+		this->gameObjects->at(i)->Render();
 	SDL_RenderPresent(renderer);
 }
 

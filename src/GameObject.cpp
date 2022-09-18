@@ -1,10 +1,11 @@
 #include "GameObject.hpp"
 #include "Global.hpp"
 
-GameObject::GameObject(Vector2 pos, Vector2 size, Image *img)
+GameObject::GameObject(Vector2 pos, Vector2 size, Image *img, string *name)
 {
 	this->pos = pos;
 	this->size = size;
+	this->name = name;
 	updateRect();
 	image = img;
 }
@@ -22,8 +23,7 @@ void GameObject::updateRect()
 		pos.x,
 		pos.y,
 		size.x,
-		size.y
-	};
+		size.y};
 }
 
 void GameObject::Render()

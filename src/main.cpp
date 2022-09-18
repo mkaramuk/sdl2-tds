@@ -8,7 +8,7 @@ GameWindow *win = new GameWindow();
 
 int main()
 {
-	win->gameObject = new GameObject({ 100, 100 }, { 50, 75 }, new Image("./images/sonic.png"));
+	win->AddGameObject(new GameObject({100, 100}, {50, 75}, new Image("./images/sonic.png"), new string("player")));
 	win->EventLoop();
 	return (0);
 }
