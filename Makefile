@@ -11,7 +11,7 @@ CC = g++
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o $(NAME)
+	$(CC)  $(OBJS)  $(LFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)

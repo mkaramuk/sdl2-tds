@@ -34,15 +34,32 @@ void GameWindow::EventLoop()
 		{
 			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
-			else if (e.key.keysym.sym == SDLK_s)
+			else if (e.key.keysym.sym == SDLK_d)
 			{
 				if (gameObject)
 					gameObject->SetPosition(gameObject->pos.x + 10, gameObject->pos.y);
+			}
+			else if (e.key.keysym.sym == SDLK_a)
+			{
+				if (gameObject)
+					gameObject->SetPosition(gameObject->pos.x - 10, gameObject->pos.y);
+			}
+			else if (e.key.keysym.sym == SDLK_s)
+			{
+				if (gameObject)
+					gameObject->SetPosition(gameObject->pos.x, gameObject->pos.y + 10);
+			}
+			
+			else if (e.key.keysym.sym == SDLK_w)
+			{
+				if (gameObject)
+					gameObject->SetPosition(gameObject->pos.x, gameObject->pos.y - 10);
 			}
 		}
 		Render();
 		// SDL_UpdateWindowSurface(window);
 	}
+	
 }
 
 void GameWindow::Render()
