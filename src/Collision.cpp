@@ -1,4 +1,4 @@
-#include "Collision.hpp"
+#include "GameObject.hpp"
 
 Collision::Collision(Vector2 size, Vector2 *pos)
 {
@@ -7,12 +7,20 @@ Collision::Collision(Vector2 size, Vector2 *pos)
 	this->pos = pos;
 }
 
+Collision::Collision()
+{
+	this->pos = new Vector2();
+	this->pos->x = 0;
+	this->pos->y = 0;
+	this->size = {0, 0};
+}
+
 void Collision::setSize(Vector2 size)
 {
 	this->size = size;
 }
 
-Collision::conflict Collision::IsConflict(std::vector <GameObject *>*OtherObjets)
+Collision::conflict Collision::IsConflict(std::vector<GameObject *> *OtherObjets)
 {
 	//	Karşılaştırma değişkenleri
 	Vector2 This_BeginEnd[2];
@@ -38,26 +46,27 @@ Collision::conflict Collision::IsConflict(std::vector <GameObject *>*OtherObjets
 
 		// Projemizdeki objeler birbirinin üstüne çıkmaya çalıştığı için
 		// ilk önce UP/DOWN durumlarını kontrol ediyoruz
-		if (This_BeginEnd[0].y <= Other_BeginEnd[1].y)//		* this.up <= other.down
+		if (This_BeginEnd[0].y <= Other_BeginEnd[1].y) //		* this.up <= other.down
 		{
 			return (up);
 		}
-		else if (This_BeginEnd[1].y >= Other_BeginEnd[0].y)//	* this.down <= other.up
+		else if (This_BeginEnd[1].y >= Other_BeginEnd[0].y) //	* this.down <= other.up
 		{
 			return (down);
 		}
-		else if (This_BeginEnd[0].x <= Other_BeginEnd[1].x)//	* this.left <= other.right
+		else if (This_BeginEnd[0].x <= Other_BeginEnd[1].x) //	* this.left <= other.right
 		{
 			return (left);
 		}
-		else if (This_BeginEnd[1].x >= Other_BeginEnd[0].x)//	* this.right <= other.left
+		else if (This_BeginEnd[1].x >= Other_BeginEnd[0].x) //	* this.right <= other.left
 		{
 			return (right);
 		}
 	}
+	return conflict::none;
 }
 
-bool Collision::IsConflict(std::vector <GameObject *>*OtherObjets, conflict direction)
+bool Collision::IsConflict(std::vector<GameObject *> *OtherObjets, Collision::conflict direction)
 {
 	// Karşılaştıma değişkenleri
 	Vector2 This_BeginEnd[2];
@@ -78,7 +87,7 @@ bool Collision::IsConflict(std::vector <GameObject *>*OtherObjets, conflict dire
 	//	Objenin ortasına kadar bakıcak daha fazlası ile ilgilenmicek
 	//
 
-	if (direction == left)//		* Looks for only left
+	if (direction == left) //		* Looks for only left
 	{
 		for (auto &objets : *OtherObjets)
 		{
@@ -89,7 +98,7 @@ bool Collision::IsConflict(std::vector <GameObject *>*OtherObjets, conflict dire
 			}
 		}
 	}
-	else if (direction == right)//	* Looks for only right
+	else if (direction == right) //	* Looks for only right
 	{
 		for (auto &objets : *OtherObjets)
 		{
@@ -100,7 +109,7 @@ bool Collision::IsConflict(std::vector <GameObject *>*OtherObjets, conflict dire
 			}
 		}
 	}
-	else if (direction == up)//		* Looks for only up
+	else if (direction == up) //		* Looks for only up
 	{
 		for (auto &objets : *OtherObjets)
 		{
@@ -111,7 +120,7 @@ bool Collision::IsConflict(std::vector <GameObject *>*OtherObjets, conflict dire
 			}
 		}
 	}
-	else if (direction == down)//	* Looks for only down
+	else if (direction == down) //	* Looks for only down
 	{
 		for (auto &objets : *OtherObjets)
 		{
