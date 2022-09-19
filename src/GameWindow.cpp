@@ -44,18 +44,21 @@ void GameWindow::EventLoop()
 
 	while (!exit)
 	{
-		while (SDL_PollEvent(&e) != 0)
+		if (SDL_PollEvent(&e) != 0)
 		{
-			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+			if (e.type == SDL_QUIT)
 				exit = true;
-			else if (e.key.keysym.sym == SDLK_d)
-				player->SetPosition(player->pos.x + 10, player->pos.y);
-			else if (e.key.keysym.sym == SDLK_a)
-				player->SetPosition(player->pos.x - 10, player->pos.y);
-			else if (e.key.keysym.sym == SDLK_s)
-				player->SetPosition(player->pos.x, player->pos.y + 10);
-			else if (e.key.keysym.sym == SDLK_w)
-				player->SetPosition(player->pos.x, player->pos.y - 10);
+			else if (e.type == SDL_KEYDOWN)
+			{
+				if (e.key.keysym.sym == SDLK_d)
+					player->SetPosition(player->pos.x + 10, player->pos.y);
+				else if (e.key.keysym.sym == SDLK_a)
+					player->SetPosition(player->pos.x - 10, player->pos.y);
+				else if (e.key.keysym.sym == SDLK_s)
+					player->SetPosition(player->pos.x, player->pos.y + 10);
+				else if (e.key.keysym.sym == SDLK_w)
+					player->SetPosition(player->pos.x, player->pos.y - 10);
+			}
 		}
 		Render();
 	}
